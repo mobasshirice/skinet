@@ -1,10 +1,7 @@
-using API.Errors;
 using API.Extenstions;
 using API.Helper;
 using API.Middleware;
-using Core.Interfaces;
 using Infrastructure.Data;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +14,13 @@ builder.Services.AddDbContext<StoreContext>(x => x.UseSqlite(connectionString));
 builder.Services.AddApplicationServices();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocumentation();
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+    });
+});
 
 
 var app = builder.Build();
@@ -30,6 +34,8 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseStaticFiles();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 
