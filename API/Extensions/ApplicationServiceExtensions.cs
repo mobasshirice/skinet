@@ -13,6 +13,7 @@ namespace API.Extenstions
         {
             // Set up Product repository and interface
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IBasketRepository, BasketRepository>();
             // Set up generic repository and interface
             services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
 
