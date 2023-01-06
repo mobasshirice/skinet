@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Core.Entities;
+using Core.Entities.OrderAggregate;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Data
@@ -60,7 +61,7 @@ namespace Infrastructure.Data
                     await context.SaveChangesAsync();
                 }
 
-                /*if (!context.DeliveryMethods.Any())
+                if (!context.DeliveryMethods.Any())
                 {
                     var dmData =
                         File.ReadAllText("../Infrastructure/Data/SeedData/delivery.json");
@@ -73,7 +74,7 @@ namespace Infrastructure.Data
                     }
 
                     await context.SaveChangesAsync();
-                }*/
+                }
             }
             catch (Exception ex)
             {
