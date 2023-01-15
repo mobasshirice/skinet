@@ -23,10 +23,13 @@ namespace API.Extensions
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
+                    var key = Encoding.UTF8.GetBytes(config["Token:Key"]);
+                    var issuer = config["Token:Issuer"];
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
+                    
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Token:Key"])),
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
                         ValidIssuer = config["Token:Issuer"],
                         ValidateIssuer = true,
                         ValidateAudience = false
