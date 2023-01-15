@@ -49,6 +49,7 @@ namespace Infrastructure.Data
 
                     foreach (var item in brands)
                     {
+                        item.Id = 0;
                         context.ProductBrands.Add(item);
                     }
 
@@ -64,6 +65,7 @@ namespace Infrastructure.Data
 
                     foreach (var item in types)
                     {
+                        item.Id = 0;
                         context.ProductTypes.Add(item);
                     }
 
@@ -79,6 +81,7 @@ namespace Infrastructure.Data
 
                     foreach (var item in products)
                     {
+                        item.Id = 0;
                         context.Products.Add(item);
                     }
 
@@ -94,6 +97,7 @@ namespace Infrastructure.Data
 
                     foreach (var item in methods)
                     {
+                        item.Id = 0;
                         context.DeliveryMethods.Add(item);
                     }
 
