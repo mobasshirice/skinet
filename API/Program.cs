@@ -4,7 +4,6 @@ using API.Helperss;
 using API.Middleware;
 using Core.Entities.Identity;
 using Infrastructure.Data;
-using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
@@ -18,10 +17,6 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<StoreContext>(x => x.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDbContext<AppIdentityDbContext>(x =>
-{
-    x.UseSqlite(builder.Configuration.GetConnectionString("IdentityConnection"));
-});
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
 {
@@ -75,14 +70,10 @@ using (var scope = app.Services.CreateScope())
     var loggerFactory = services.GetRequiredService<ILoggerFactory>();
     try
     {
+        var userManager = services.GetRequiredService<UserManager<AppUser>>();
         var context = services.GetRequiredService<StoreContext>();
         await context.Database.MigrateAsync();
-        await StoreContextSeed.SeedAsync(context, loggerFactory);
-
-        var userManager = services.GetRequiredService<UserManager<AppUser>>();
-        var identityContext = services.GetRequiredService<AppIdentityDbContext>();
-        await identityContext.Database.MigrateAsync();
-        await AppIdentityDbContextSeed.SeedUsersAsync(userManager);
+        await StoreContextSeed.SeedAsync(userManager, context, loggerFactory);
     }
     catch (Exception ex)
     {

@@ -5,17 +5,41 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Core.Entities;
+using Core.Entities.Identity;
 using Core.Entities.OrderAggregate;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using Address = Core.Entities.Identity.Address;
 
 namespace Infrastructure.Data
 {
     public class StoreContextSeed
     {
-        public static async Task SeedAsync(StoreContext context, ILoggerFactory loggerFactory)
+        public static async Task SeedAsync(UserManager<AppUser> userManager,StoreContext context, ILoggerFactory loggerFactory)
         {
             try
             {
+                if (!userManager.Users.Any())
+                {
+                    var user = new AppUser
+                    {
+                        DisplayName = "Bob",
+                        Email = "admin@admin.com",
+                        UserName = "admin@admin.com",
+                        Address = new Address
+                        {
+                            FirstName = "Bob",
+                            LastName = "Bobbity",
+                            Street = "10 The street",
+                            City = "New York",
+                            State = "NY",
+                            ZipCode = "90210"
+                        }
+                    };
+
+                    await userManager.CreateAsync(user, "Pa$$w0rd");
+                }
+
                 if (!context.ProductBrands.Any())
                 {
                     var brandsData =
