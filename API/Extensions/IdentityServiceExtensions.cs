@@ -20,21 +20,21 @@ namespace API.Extensions
             builder.AddEntityFrameworkStores<StoreContext>();
             builder.AddSignInManager<SignInManager<AppUser>>();
 
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //    .AddJwtBearer(options =>
-            //    {
-            //        var key = Encoding.UTF8.GetBytes(config["Token:Key"]);
-            //        var issuer = config["Token:Issuer"];
-            //        options.TokenValidationParameters = new TokenValidationParameters
-            //        {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    var key = Encoding.UTF8.GetBytes(config["Token:Key"]);
+                    var issuer = config["Token:Issuer"];
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
                     
-            //            ValidateIssuerSigningKey = true,
-            //            IssuerSigningKey = new SymmetricSecurityKey(key),
-            //            ValidIssuer = config["Token:Issuer"],
-            //            ValidateIssuer = true,
-            //            ValidateAudience = false
-            //        };
-            //    });
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidIssuer = config["Token:Issuer"],
+                        ValidateIssuer = true,
+                        ValidateAudience = false
+                    };
+                });
 
             return services;
         }
